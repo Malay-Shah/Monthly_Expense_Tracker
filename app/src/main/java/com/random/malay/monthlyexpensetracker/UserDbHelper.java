@@ -15,7 +15,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String CREATE_QUERY=
             "CREATE TABLE " + ExpenseDatabase.NewExpenseItem.TABLE_NAME + "("+ ExpenseDatabase.NewExpenseItem.DATE+" TEXT,"+ ExpenseDatabase.NewExpenseItem.DESCRIPTION+ " TEXT,"+
-            ExpenseDatabase.NewExpenseItem.CATEGORY+" TEXT," + ExpenseDatabase.NewExpenseItem.AMOUNT+ " TEXT);";
+            ExpenseDatabase.NewExpenseItem.CATEGORY+" TEXT," + ExpenseDatabase.NewExpenseItem.AMOUNT+ " REAL);";
 
     public UserDbHelper(Context context){
 
@@ -31,7 +31,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void addInformations(String date, String description, String category, String amount,SQLiteDatabase db ){
+    public void addInformations(String date, String description, String category, Integer amount,SQLiteDatabase db ){
         ContentValues contentValues = new ContentValues();
         contentValues.put(ExpenseDatabase.NewExpenseItem.DATE,date);
         contentValues.put(ExpenseDatabase.NewExpenseItem.DESCRIPTION, description);
