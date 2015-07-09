@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddExpense"
+            android:label="@string/title_activity_add_expense" >
+        </activity>
+        <activity
+            android:name=".DataListActivity"
+            android:label="@string/title_activity_data_list" >
+        </activity>
     </application>
 
 </manifest>

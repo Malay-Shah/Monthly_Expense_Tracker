@@ -2,6 +2,7 @@ package com.random.malay.monthlyexpensetracker;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -13,9 +14,9 @@ public class UserDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "EXPENSE.DB";
     private static final int DATABASE_VERSION = 1;
-    private static final String CREATE_QUERY=
-            "CREATE TABLE " + ExpenseDatabase.NewExpenseItem.TABLE_NAME + "("+ ExpenseDatabase.NewExpenseItem.DATE+" TEXT,"+ ExpenseDatabase.NewExpenseItem.DESCRIPTION+ " TEXT,"+
-            ExpenseDatabase.NewExpenseItem.CATEGORY+" TEXT," + ExpenseDatabase.NewExpenseItem.AMOUNT+ " REAL);";
+    private static final String CREATE_QUERY =
+            "CREATE TABLE " + ExpenseDatabase.NewExpenseItem.TABLE_NAME + " ("+ ExpenseDatabase.NewExpenseItem.DATE+" TEXT,"+ ExpenseDatabase.NewExpenseItem.DESCRIPTION+ " TEXT,"+
+            ExpenseDatabase.NewExpenseItem.CATEGORY+" TEXT," + ExpenseDatabase.NewExpenseItem.AMOUNT+ " TEXT);";
 
     public UserDbHelper(Context context){
 
@@ -31,7 +32,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void addInformations(String date, String description, String category, Integer amount,SQLiteDatabase db ){
+    public void addInformations(String date, String description, String category, String amount,SQLiteDatabase db ){
         ContentValues contentValues = new ContentValues();
         contentValues.put(ExpenseDatabase.NewExpenseItem.DATE,date);
         contentValues.put(ExpenseDatabase.NewExpenseItem.DESCRIPTION, description);
@@ -40,6 +41,18 @@ public class UserDbHelper extends SQLiteOpenHelper {
         db.insert(ExpenseDatabase.NewExpenseItem.TABLE_NAME, null, contentValues);
         Log.e("DATABASE OPERATIONS", "One row inserted in DB");
     }
+
+    public Cursor getInformation(SQLiteDatabase db){
+        Cursor cursor;
+        String[] projections = {ExpenseDatabase.NewExpenseItem.DATE, ExpenseDatabase.NewExpenseItem.DESCRIPTION,
+                                ExpenseDatabase.NewExpenseItem.CATEGORY, ExpenseDatabase.NewExpenseItem.AMOUNT};
+        cursor = db.query(ExpenseDatabase.NewExpenseItem.TABLE_NAME, projections, null, null, null, null, null);
+        return cursor;
+    }
+
+
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
