@@ -1,38 +1,45 @@
 package com.random.malay.monthlyexpensetracker;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 
 public class DataListActivity extends ActionBarActivity {
+
+    ListView listView;
+    SQLiteDatabase sqLiteDatabase;
+    UserDbHelper userDbHelper;
+    Cursor cursor;
+    ListDataAdapter listDataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_list_layout);
-    }
+        listView = (ListView) findViewById(R.id.list_view);
+        listDataAdapter = new ListDataAdapter(getApplicationContext(), R.layout.row_layout);
+        listView.setAdapter(listDataAdapter);
+        userDbHelper = new UserDbHelper(getApplicationContext());
+        sqLiteDatabase = userDbHelper.getReadableDatabase();
+        cursor = userDbHelper.getInformation(sqLiteDatabase);
+        if(cursor.moveToFirst()){
+            do{
+                String date,description, category, amount;
+                date = cursor.getString(0);
+                description = cursor.getString(1);
+                category = cursor.getString(2);
+                amount = cursor.getString(3);
+                DataProvider dataProvider = new DataProvider(date, description, category, amount);
+                listDataAdapter.add(dataProvider);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_data_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            }while(cursor.moveToNext());
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
+
 }
