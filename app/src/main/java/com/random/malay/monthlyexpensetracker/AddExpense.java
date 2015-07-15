@@ -37,6 +37,10 @@ public class AddExpense extends Activity {
         userDbHelper.addInformations(date, description, category, amount, sqLiteDatabase);
         Toast.makeText(getBaseContext(),"Data Saved", Toast.LENGTH_LONG).show();
         userDbHelper.close();
+        inputDate.setText("");
+        inputDescription.setText("");
+        inputCategory.setText("");
+        inputAmount.setText("");
     }
 
 }
